@@ -1,0 +1,74 @@
+-------------------------------------------------------------------------------
+FORWARD PASS (shapes shown for MNIST, batch_size = B)
+-------------------------------------------------------------------------------
+
+X  --------------------------> (B, 784)
+   Input pixels flattened
+
+z1 = X @ W1 + b1 ------------> (B, H1)
+a1 = activation(z1) ---------> (B, H1)
+
+z2 = a1 @ W2 + b2 ------------> (B, H2)
+a2 = activation(z2) ----------> (B, H2)
+
+z3 = a2 @ W3 + b3 ------------> (B, 10)
+p  = softmax(z3) -------------> (B, 10)
+
+Loss = cross_entropy(p, y)
+-------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------
+BACKWARD PASS (shapes and meaning)
+-------------------------------------------------------------------------------
+TL;DR----------------------------------------------------------|
+
+# 1. dL/dz3 = gradient at output logits (softmax + CE)
+# 2. dW3, db3 = gradients for output layer weights and biases
+# 3. dz2 = backprop through W3 and activation of hidden2
+# 4. dW2, db2 = gradients for second hidden layer
+# 5. dz1 = backprop through W2 and activation of hidden1
+# 6. dW1, db1 = gradients for first hidden layer
+# 7. Update weights with learning rate (SGD)
+---------------------------------------------------------------|
+
+dL/dz3 = (p - y) / B -----------> (B, 10)
+  Gradient of loss w.r.t logits of output layer
+  (Softmax + CrossEntropy simplifies to p - y)
+
+dW3 = a2.T @ dL/dz3 ------------> (H2, 10)
+db3 = sum(dL/dz3, axis=0) ------> (1, 10)
+
+dz2 = (dL/dz3 @ W3.T) * dReLU(z2)
+       --------------------------------> (B, H2)
+  Backprop through output weights and ReLU
+
+dW2 = a1.T @ dz2 -----------------------> (H1, H2)
+db2 = sum(dz2, axis=0) -----------------> (1, H2)
+
+dz1 = (dz2 @ W2.T) * dReLU(z1)
+       --------------------------------> (B, H1)
+  Backprop again through hidden weights and ReLU
+
+dW1 = X.T @ dz1 ------------------------> (784, H1)
+db1 = sum(dz1, axis=0) -----------------> (1, H1)
+
+Update:
+W3 -= lr * dW3
+b3 -= lr * db3
+W2 -= lr * dW2
+b2 -= lr * db2
+W1 -= lr * dW1
+b1 -= lr * db1
+-------------------------------------------------------------------------------
+
+NOTES:
+- X @ W gives matrix multiplication (B, input) @ (input, output) → (B, output)
+- ReLU derivative: dReLU(z) = 1 when z>0 else 0
+- Cross-entropy + softmax gradient: dL/dz3 = (p - y)
+- Bias gradients are always sum of upstream gradients across the batch
+- Dividing by batch_size B ensures mean loss and stable gradients
+-------------------------------------------------------------------------------
+
+
