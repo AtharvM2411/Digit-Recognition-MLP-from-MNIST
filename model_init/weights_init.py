@@ -1,8 +1,8 @@
 """
 Digit Recognition using MLP (from scratch)
-Author: Atharv
+Author: AtharvM2411
 Created: 2025
-# Copyright (c) 2025 Atharv
+# Copyright (c) 2025 AtharvM2411
 # Licensed under GAPL 3.0
 This implementation is written fully in NumPy for learning purposes.
 """
