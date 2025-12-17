@@ -83,7 +83,7 @@ while True:
         digit=canvas[y_1st:y_last+1,x_1st:x_last+1]
     else:
         digit=canvas
-    digit=cv2.resize(digit,size_no_padding,interpolation=cv2.INTER_AREA)#resize to no padding size with interpolation INTER_AREA
+    digit=cv2.resize(digit,size_no_padding,interpolation=cv2.INTER_LINEAR)#resize to no padding size with interpolation INTER_AREA
     digit = np.pad(digit,pad_width=(size[0]-size_no_padding[0])//2, mode='constant', constant_values=0)
     digit = cv2.GaussianBlur(digit,kernel,0.2)
     digit = digit / 255.0                      # normalize to 0–1
@@ -98,7 +98,7 @@ while True:
         pred="\0"
 
     # Draw prediction on the canvas window
-    cv2.putText(show_canvas, f"Pred: {pred}", (10, 380),
+    cv2.putText(show_canvas, f"Pred: {pred}", (10, 280),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 
     cv2.imshow("Draw Digit (press 'c' to clear)", show_canvas)
