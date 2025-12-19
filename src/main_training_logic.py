@@ -1,5 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
 
 """
 Digit Recognition using MLP (from scratch)
@@ -9,7 +7,8 @@ Created: 2025
 # Licensed under GAPL 3.0
 This implementation is written fully in NumPy for learning purposes.
 """
-
+import numpy as np
+import matplotlib.pyplot as plt
 #_______________________________________________
 #Loading data
 #_______________________________________________
@@ -56,8 +55,8 @@ train_batched_random_images = np.array([batch[0] for batch in batches])
     # or (num_batches, batch_size) for integer labels.
 train_batched_random_labels = np.array([batch[1] for batch in batches])
 
-np.save('train_batched_random_images.npy',train_batched_random_images)
-np.save('train_batched_random_labels.npy',train_batched_random_labels)
+#np.save('train_batched_random_images.npy',train_batched_random_images)
+#np.save('train_batched_random_labels.npy',train_batched_random_labels)
 
 
 #________________________________________________
@@ -155,8 +154,9 @@ for epoch in range(epochs):
 
         # compute batch loss
         # loss = -log(correct_prob)
-        correct_probs = np.sum(activation3_prob * y, axis=1)
-        loss = -np.log(correct_probs + 1e-12)
+        correct_probs = np.sum(activation3_prob * y, axis=1)# finding probability of correct label
+        loss = -np.log(correct_probs + 1e-12) #log of correct probability as probabilty of other classes is multipied by zero due to one hot encoding (desired probability of other classes) hence considering probability of correct class only 
+        # using log loss because this ensures larger tuning for larger error as its the inherent behaviour of -log(x)
         batch_loss = np.mean(loss)
         losses.append(batch_loss)#appends batch loss in loss list to plot later 
         total_loss += batch_loss
