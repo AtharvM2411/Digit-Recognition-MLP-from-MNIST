@@ -12,11 +12,13 @@ The project is designed for **learning and experimentation**, with a strong focu
 * Understanding forward propagation and backpropagation mathematically
 * Manual batching, loss computation, and gradient updates
 * Real-time inference using a drawing pad
+* Try to preserve the naming convention of project if you dont want to change the script multiple times. 
 
 > **Note**
 > Support for **AMNIST (Augmented MNIST – 400k samples)** is **planned for future versions**.
 > The current training pipeline is fully stable for **original MNIST**.
 > Real time Inference using cv2 is available using weights and biases in main folder.
+> Weight Visualization script is built in project folder.
 ---
 
 ## Project Structure
@@ -36,6 +38,8 @@ Digit_Recognition_MLP_MNIST
 ├── train_batched_random_labels.npy
 │
 ├── real_time_testing.py             # Drawing pad inference
+│
+├── weights_visualization.py
 │
 ├── model_init/
 │   ├── weights_init.py
