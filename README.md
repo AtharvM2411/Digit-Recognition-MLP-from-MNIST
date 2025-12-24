@@ -245,6 +245,10 @@ Double normalization will severely reduce learning.
    real_time_testing.py
    ```
 
+6. Weights Visualization
+   ```
+   weights_visualization.py
+   ```
 ---
 
 ## Real-Time Drawing Pad
@@ -273,7 +277,7 @@ Real-time accuracy is typically **lower than MNIST test accuracy** due to:
 | Softmax outputs ~0.1   | Dead gradients or normalization bug | [SOLVED]
 | Same digit predicted   | Input preprocessing mismatch        |
 | Low real-time accuracy | Drawing scale mismatch              |
-| Training stalls        | Gradients averaged twice            |
+| Training stalls        | Gradients averaged twice            | [SOLVED]
 
 ---
 
